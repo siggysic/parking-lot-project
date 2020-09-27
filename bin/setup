@@ -1,0 +1,13 @@
+# Add script to:
+# * Install dependencies
+# * Build/Compile
+# * Run Test Suit to validate
+#
+# After this is run, bin/parking_lot
+# should Just Work.
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+cd $DIR
+cd ..
+go test ./...
+go build -o bin/parkinglot
