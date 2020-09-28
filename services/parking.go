@@ -6,7 +6,6 @@ import (
 	"parkinglot/models"
 	"sort"
 	"strings"
-	"text/tabwriter"
 )
 
 // ParkingLotKeyValue is map key value ParkingLot
@@ -50,7 +49,7 @@ type IParking interface {
 
 	IsSortAvailableLot() bool
 
-	BusyStatusWriterTable(tabWriter *tabwriter.Writer)
+	BusyStatusTable()
 }
 
 // Parking is a set/get parking information
@@ -240,12 +239,8 @@ func (svc *Parking) leaveFromLot(lotNo int) bool {
 	return true
 }
 
-// BusyStatusWriterTable is format print string
-func (svc *Parking) BusyStatusWriterTable(tabWriter *tabwriter.Writer) {
-	if tabWriter == nil {
-		return
-	}
-	defer tabWriter.Flush()
+// BusyStatusTable is format print string
+func (svc *Parking) BusyStatusTable() {
 	fmt.Printf("%-12s%-19s%s\n", "Slot No.", "Registration No", "Colour")
 	lastLotNo := len(svc.parkingLotKeyValue)
 	for i := 1; i <= lastLotNo; i++ {
@@ -256,5 +251,4 @@ func (svc *Parking) BusyStatusWriterTable(tabWriter *tabwriter.Writer) {
 			fmt.Printf("%-12d%-19s%s\n", parkingLot.lotNo, parkingLot.vehicle.PlateNumber(), parkingLot.vehicle.Color())
 		}
 	}
-	// fmt.Fprintln(tabWriter, "")
 }

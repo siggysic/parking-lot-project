@@ -8,7 +8,6 @@ import (
 	"parkinglot/models"
 	"strconv"
 	"strings"
-	"text/tabwriter"
 )
 
 // CommandInput is struct command input
@@ -19,8 +18,7 @@ type CommandInput struct {
 
 // ParkingLotCommandInput is struct parking lot command input
 type ParkingLotCommandInput struct {
-	reader    io.Reader
-	tabWriter *tabwriter.Writer
+	reader io.Reader
 
 	parkingLotSvc IParking
 }
@@ -30,10 +28,9 @@ func NewCommandInput() *CommandInput {
 	return &CommandInput{}
 }
 
-func newParkingLotCommandInput(reader io.Reader, tabWriter *tabwriter.Writer, parkingLotSvc IParking) *ParkingLotCommandInput {
+func newParkingLotCommandInput(reader io.Reader, parkingLotSvc IParking) *ParkingLotCommandInput {
 	return &ParkingLotCommandInput{
 		reader:        reader,
-		tabWriter:     tabWriter,
 		parkingLotSvc: parkingLotSvc,
 	}
 }
@@ -71,10 +68,8 @@ func (svc *CommandInput) Run() {
 		reader = bufio.NewReader(os.Stdin)
 	}
 
-	tWriter := new(tabwriter.Writer)
-	tWriter.Init(os.Stdout, 8, 8, 0, '\t', 0)
 	parkingLotSvc := NewParking("parking-lot")
-	parkingCommand := newParkingLotCommandInput(reader, tWriter, parkingLotSvc)
+	parkingCommand := newParkingLotCommandInput(reader, parkingLotSvc)
 	parkingCommand.start()
 }
 
@@ -205,7 +200,7 @@ func (svc *ParkingLotCommandInput) handleLeaveFromLot(attrs ...string) {
 func (svc *ParkingLotCommandInput) handleGetBusyParkingStatus(attrs ...string) {
 	parkingLotSvc := svc.parkingLotSvc
 
-	parkingLotSvc.BusyStatusWriterTable(svc.tabWriter)
+	parkingLotSvc.BusyStatusTable()
 }
 
 func (svc *ParkingLotCommandInput) handleGetPlateNoByCarColor(attrs ...string) {
