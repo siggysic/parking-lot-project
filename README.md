@@ -21,3 +21,8 @@ bin/setup
    - ```registration_numbers_for_cars_with_colour ${car_colour}``` for listing only registration number that match car color in input
    - ```slot_numbers_for_cars_with_colour ${car_colour}``` for listing only parking lot number that match car color in input
    - ```slot_number_for_registration_number ${registration_number}``` for listing only parking lot number that match registration number in input
+
+4. Run in docker
+   - ```docker build . -t ${image_name}```
+   - ```docker run -it --name ${container_name} ${image_name}``` with standard input command type
+   - ```docker run --name ${container_name} -e CMD=file_inputs.txt ${image_name}``` with file input type
