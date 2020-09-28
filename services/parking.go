@@ -246,15 +246,15 @@ func (svc *Parking) BusyStatusWriterTable(tabWriter *tabwriter.Writer) {
 		return
 	}
 	defer tabWriter.Flush()
-	fmt.Fprintf(tabWriter, "%s\t%s\t%s", "Slot No.", "Registration No", "Colour")
+	fmt.Printf("%-12s%-19s%s\n", "Slot No.", "Registration No", "Colour")
 	lastLotNo := len(svc.parkingLotKeyValue)
 	for i := 1; i <= lastLotNo; i++ {
 		if parkingLot, ok := svc.parkingLotKeyValue[i]; ok {
 			if parkingLot.status != models.Busy || parkingLot.vehicle == nil {
 				continue
 			}
-			fmt.Fprintf(tabWriter, "\n%d\t%s\t%s", parkingLot.lotNo, parkingLot.vehicle.PlateNumber(), parkingLot.vehicle.Color())
+			fmt.Printf("%-12d%-19s%s\n", parkingLot.lotNo, parkingLot.vehicle.PlateNumber(), parkingLot.vehicle.Color())
 		}
 	}
-	fmt.Fprintln(tabWriter, "")
+	// fmt.Fprintln(tabWriter, "")
 }
